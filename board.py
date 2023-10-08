@@ -1,59 +1,57 @@
 # TODO: Draw board from current list of gameplay (3x3 array/list)
 
-def checkDraw(gameState:list):
-    pass
+def checkDraw(gameState: list):
+    fullBoard = True
+    for i in range(3):
+        for j in range(3):
+            if gameState[i][j] == '':
+                fullBoard = False
+                break
+    return fullBoard
 
-def checkWinner(gameState: list, isMaximizing: bool): # Is it the AI turn (maximizing X) or ours (O)
-    
-    # Check Draw
-    if checkDraw():
-        return 0
+
+def checkWinner(gameState: list): # Is it the AI turn (maximizing X) or ours (O)
         
-    if isMaximizing:
-        # Diagonal
-        if gameState[0][0] == 'X' and gameState[1][1] == 'X' and gameState[2][2] == 'X':
-            return 9999 # Maximizing Player
-        elif gameState[0][2] == 'X' and gameState[1][1] == 'X' and gameState[2][0] == 'X':
-            return 9999 # Because or logic is too long
-        # Horizontal
-        elif gameState[0][0] == 'X' and gameState[0][1] == 'X' and gameState[0][2] == 'X':
-            return 9999
-        elif gameState[1][0] == 'X' and gameState[1][1] == 'X' and gameState[1][2] == 'X':
-            return 9999
-        elif gameState[2][0] == 'X' and gameState[2][1] == 'X' and gameState[2][2] == 'X':
-            return 9999
-        # Vertical
-        elif gameState[0][0] == 'X' and gameState[1][0] == 'X' and gameState[2][0] == 'X':
-            return 9999
-        elif gameState[0][1] == 'X' and gameState[1][1] == 'X' and gameState[2][1] == 'X':
-            return 9999
-        elif gameState[0][2] == 'X' and gameState[1][2] == 'X' and gameState[2][2] == 'X':
-            return 9999
-        else:
-            return -1 # Maximizing player only wants > 0 anyway
-        
-    else: # Minimizing player (O)
-        # Diagonal
-        if gameState[0][0] == 'O' and gameState[1][1] == 'O' and gameState[2][2] == 'O':
-            return -9999 # Maximizing Player
-        elif gameState[0][2] == 'O' and gameState[1][1] == 'O' and gameState[2][0] == 'O':
-            return -9999 # Because or logic is too long
-        # Horizontal
-        elif gameState[0][0] == 'O' and gameState[0][1] == 'O' and gameState[0][2] == 'O':
-            return -9999
-        elif gameState[1][0] == 'O' and gameState[1][1] == 'O' and gameState[1][2] == 'O':
-            return -9999
-        elif gameState[2][0] == 'O' and gameState[2][1] == 'O' and gameState[2][2] == 'O':
-            return -9999
-        # Vertical
-        elif gameState[0][0] == 'O' and gameState[1][0] == 'O' and gameState[2][0] == 'O':
-            return -9999
-        elif gameState[0][1] == 'O' and gameState[1][1] == 'O' and gameState[2][1] == 'O':
-            return -9999
-        elif gameState[0][2] == 'O' and gameState[1][2] == 'O' and gameState[2][2] == 'O':
-            return -9999
-        else:
-            return 1 # Minimizing player only wants < 0 anyway
+    # Diagonal
+    if gameState[0][0] == 'X' and gameState[1][1] == 'X' and gameState[2][2] == 'X':
+        return 9999 # Maximizing Player
+    elif gameState[0][2] == 'X' and gameState[1][1] == 'X' and gameState[2][0] == 'X':
+        return 9999 # Because or logic is too long
+    # Horizontal
+    elif gameState[0][0] == 'X' and gameState[0][1] == 'X' and gameState[0][2] == 'X':
+        return 9999
+    elif gameState[1][0] == 'X' and gameState[1][1] == 'X' and gameState[1][2] == 'X':
+        return 9999
+    elif gameState[2][0] == 'X' and gameState[2][1] == 'X' and gameState[2][2] == 'X':
+        return 9999
+    # Vertical
+    elif gameState[0][0] == 'X' and gameState[1][0] == 'X' and gameState[2][0] == 'X':
+        return 9999
+    elif gameState[0][1] == 'X' and gameState[1][1] == 'X' and gameState[2][1] == 'X':
+        return 9999
+    elif gameState[0][2] == 'X' and gameState[1][2] == 'X' and gameState[2][2] == 'X':
+        return 9999
+    # O
+    elif gameState[0][0] == 'O' and gameState[1][1] == 'O' and gameState[2][2] == 'O':
+        return -9999 # Maximizing Player
+    elif gameState[0][2] == 'O' and gameState[1][1] == 'O' and gameState[2][0] == 'O':
+        return -9999 # Because or logic is too long
+    # Horizontal
+    elif gameState[0][0] == 'O' and gameState[0][1] == 'O' and gameState[0][2] == 'O':
+        return -9999
+    elif gameState[1][0] == 'O' and gameState[1][1] == 'O' and gameState[1][2] == 'O':
+        return -9999
+    elif gameState[2][0] == 'O' and gameState[2][1] == 'O' and gameState[2][2] == 'O':
+        return -9999
+    # Vertical
+    elif gameState[0][0] == 'O' and gameState[1][0] == 'O' and gameState[2][0] == 'O':
+        return -9999
+    elif gameState[0][1] == 'O' and gameState[1][1] == 'O' and gameState[2][1] == 'O':
+        return -9999
+    elif gameState[0][2] == 'O' and gameState[1][2] == 'O' and gameState[2][2] == 'O':
+        return -9999
+    else:
+        return 0 # Minimizing player only wants < 0 anyway
 
 def drawBoard(gameState: list):
     # board = [
