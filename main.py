@@ -1,21 +1,25 @@
 import board
 import random
 
-# For X for now
-def pick_empty_cell(gameState):
-    # Pick a random cell for X to go in
-    random.seed(None)
-    
-    tries = 0
-    while tries <= 9:
-        
-        rows = random.randint(0, 2)
-        cols = random.randint(0, 2)
-        if gameState[rows][cols] == '':
-            return rows, cols
-        tries+=1
-    
-    return -1, -1
+# For X for now. TODO: Make a minimax tree
+def findBestMove(gameState):
+    bestMove = None
+    bestEval = -float('inf')
+    alpha = -float('inf')
+    beta = float('inf')
+
+    for i in range(3):
+        for j in range(3):
+            if gameState[i][j] == '':
+                gameState[i][j] = 'X'
+                # eval = board.minimax(gameState, 0, False, alpha, beta)
+                eval = board.heuristic(gameState) if board.checkWinner(gameState) == 0 and not board.checkDraw(gameState) else board.minimax(gameState, 0, False, alpha, beta)
+                gameState[i][j] = ''
+                if eval > bestEval:
+                    bestEval = eval
+                    bestMove = (i, j)
+
+    return bestMove
 
 
 def player_turns(rows, cols, gameState):
@@ -54,25 +58,10 @@ if __name__ == '__main__':
             print("Bot turn");
         else:
             print("Your Turn")
-        
-        # for i in range(3):
-        #     for j in range(3):
-        #         if game_board[i][j] == '': #Empty cell
-        #             if isMax:
-        #                 print('X turns')
-        #                 # Logics
-        #                 # Place randomly for now
-        #                 game_board[i][j] = 'X'
-                        
-        #                 if board.checkWinner(game_board) == 9999:
-        #                     winner = 1
-        #                     terminal = True                   
-        #                 isMax = not isMax # Switch Turn
-        #                 board.drawBoard(game_board)
-        
+            
         # AI turn
         if isMax:
-            rows, cols = pick_empty_cell(game_board)
+            rows, cols = findBestMove(game_board)
             if rows == -1 and cols == -1:
                 draw = True
                 break;
@@ -80,12 +69,18 @@ if __name__ == '__main__':
                 game_board[rows][cols] = 'X'
                 board.drawBoard(game_board)
                 print(f"Bot X moves to ({rows}, {cols})")
+                print(f"Bot X evaluation score: {board.heuristic(game_board)}")
+                
                 if board.checkWinner(game_board) == 9999:
                     winner = 1
                     terminal = True
         # Our turn
         else:
             # Need a different full board checking mechanism?
+            if board.checkDraw(game_board):
+                draw= True
+                break
+            
             rows, cols = -2048, -2048
             
             while True:
@@ -99,9 +94,7 @@ if __name__ == '__main__':
             game_board[rows][cols] = 'O'
             board.drawBoard(game_board)
             print(f"Player O moves to ({rows}, {cols})")
-            if board.checkDraw(game_board):
-                draw= True
-                break
+
             
             if board.checkWinner(game_board) == -9999:
                 winner = -1
